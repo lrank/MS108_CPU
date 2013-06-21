@@ -5,10 +5,14 @@ module MUX32(
     data_o
 );
 
-input [31:0] data1_i;
-input [31:0] data2_i;
-input select_i;
-output [31:0] data_o;
+input wire [31:0] data1_i;
+input wire [31:0] data2_i;
+input wire select_i;
+output reg [31:0] data_o;
 
-assign data_o= select_i? data2_i :data1_i;
+always @(select_i or data1_i or data2_i)
+begin
+  assign data_o= select_i? data2_i :data1_i;
+end
+
 endmodule 

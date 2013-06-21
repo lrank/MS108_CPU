@@ -1,27 +1,29 @@
 module MEM(
+  clk,
   address_i,
   data_i,
   row_i,
   data_o
 );
 
+input wire clk;
 input wire [31:0] address_i;
 input wire [31:0] data_i;
 input wire [1:0] row_i;
-output reg [31:0] data_o;
+output wire [31:0] data_o;
+
+reg read, write;
 
 cache cache(
-  .clk 		(clock)
-  .reset	(0),
+  .clock 		(clk),
+  .reset	(1'b0),
   .write	(read),
   .read		(write),
   .address  (address_i),
   .data_in	(data_i),
   .data_out	(data_o),
-  .hit (0)
+  .hit ()
 );
-
-reg read, write;
 
 always
 begin

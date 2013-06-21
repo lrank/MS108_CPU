@@ -13,12 +13,12 @@ module data_memory (reset0,clock,data,addr,write_enable,outp,valid,visit);
 	integer i;
 	
 	initial
-	begin
+	begin/*
 	  for (i=0;i<SIZE;i=i+1)
 	  begin
 	    mem[i]=32'b0;
-	  end
-	  //$readmemb("ram_data.txt",mem);
+	  end*/
+	  $readmemh("ram_data.txt",mem);
 	end
 	
 	always @(/*posedge clock*//*reset0 or data or addr or write_enable*//*visit or*/ posedge clock)
