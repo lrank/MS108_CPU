@@ -152,7 +152,7 @@ public class Translate {
 			transCom_Statement(s.com_statement,obj);
 		}
 		Temp tt=new Temp();
-		emit(new UnaryConst(tt,new Const(s.expression2.num/unroll)));
+		emit(new UnaryConst(tt,new Const(s.expression2.num/*/unroll*/)));
 		emit(new LABEL(here));
 		emit(new If(var.temp,tt,next));
 		for (int i=0;i<unroll;++i)

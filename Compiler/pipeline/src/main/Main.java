@@ -1,8 +1,11 @@
 package main;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -156,8 +159,9 @@ public class Main {
 		code.gen(new Assem("li $sp,0x10010000"));
 		code.gen(new Assem("li $fp,0x10010000"));
 		code.gen(new Assem("jal main"));*/
-		code.flush(System.out,true);
-
+		PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream("instr.txt")));
+		code.flush(out,true);
+		out.close();
 		return 0;
 	}
 
