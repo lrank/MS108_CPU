@@ -1,0 +1,383 @@
+m255
+K3
+13
+cModel Technology
+dD:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples
+T_opt
+VZDYi2bCEZGnAYlOIWMe_l0
+04 8 4 work pipeline fast 0
+=1-74e50b88c704-51c5a6cd-16a-821c
+o-quiet -auto_acc_if_foreign -work work
+n@_opt
+OL;O;10.1c;51
+vALU
+I?PSHEioZSCen_4=1<jNmJ1
+V=CAhaei9P:MH`S:WU[7];3
+Z0 dD:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master
+w1371901982
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ALU.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ALU.v
+L0 1
+Z1 OL;L;10.1c;51
+r1
+31
+Z2 o-work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+n@a@l@u
+!s100 RNOaN>Fi<Pn2AlWzIeg5d3
+!s108 1371907756.955000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ALU.v|
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ALU.v|
+!i10b 1
+!s85 0
+vbypass
+IRAR2^k5_Z;5z;Fi0Ym5312
+VigM^AGJ4JX6ThPY^ziSjl3
+Z3 dD:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master
+w1371891086
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/bypass.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/bypass.v
+L0 1
+R1
+r1
+31
+R2
+!i10b 1
+!s100 9RJafoeVnL3^DPgSUgeID3
+!s85 0
+!s108 1371907759.420000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/bypass.v|
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/bypass.v|
+vcache
+I310E6nzJk[C@@0]4Jo`983
+VS?34QnU[94lhBkzZj3>?:0
+R3
+w1371891559
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v
+L0 2
+R1
+r1
+31
+R2
+!s100 ;QZlY?DHDjQ[d4D3?OSH=2
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v|
+!s108 1371907757.213000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v|
+!i10b 1
+!s85 0
+vcpu
+IY=2OMChH^OMOCfI=;UoHb0
+V68U3K87;oclcVeQYTO=Pz0
+R3
+w1371907043
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v
+L0 1
+R1
+r1
+31
+R2
+!s100 Q_V53jXgR:UcH<?l1mOVo2
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v|
+!s108 1371907757.326000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v|
+!i10b 1
+!s85 0
+vdata_memory
+IRO2BTEa>hLz7FBJa6P:VI3
+Vl7o`ZhEO:@ozz6m86FOOg3
+R3
+w1371897401
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v
+L0 2
+R1
+r1
+31
+R2
+!s100 =he1OMf5IO`k:nkOSBnZR3
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v|
+!s108 1371907757.440000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v|
+!i10b 1
+!s85 0
+vEX_MEM
+IB1PkzfRc@ezgQ9ehQJ93^1
+Vf233;z]3D2TIJIiJO]ndZ3
+R3
+w1371902044
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v
+L0 1
+R1
+r1
+31
+R2
+n@e@x_@m@e@m
+!s100 M;Tg>EH<>a0ACi8D_z;DQ3
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v|
+!s108 1371907757.559000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v|
+!i10b 1
+!s85 0
+vhazard
+IlG8;cabPEK:fWZ57z3W8J1
+VGPE]e9kHVmR>@QJkmLNBD3
+R3
+w1371907545
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/hazard.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/hazard.v
+L0 1
+R1
+r1
+31
+R2
+!s100 3]:P:9z8`C=J>mU2j^@?[1
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/hazard.v|
+!s108 1371907759.295000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/hazard.v|
+!i10b 1
+!s85 0
+vID_EX
+IPJX8[T8W>LD4DI=J=KA`?2
+VEUzI20n:YMN::nHi2_i_Z3
+R3
+w1371899640
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ID_EX.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ID_EX.v
+L0 1
+R1
+r1
+31
+R2
+n@i@d_@e@x
+!s100 Z3lcD>zRmY]E2e]`=6H7k0
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ID_EX.v|
+!s108 1371907757.699000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/ID_EX.v|
+!i10b 1
+!s85 0
+vIF_ID
+IWlBcEzAlUaB6ImH[R9<G=0
+VV<aG@YickNFC]8aK13J@b0
+R3
+w1371902826
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/IF_ID.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/IF_ID.v
+L0 1
+R1
+r1
+31
+R2
+n@i@f_@i@d
+!s100 JJ=D]UDeGT<P2F<8n<Wk_3
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/IF_ID.v|
+!s108 1371907757.807000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/IF_ID.v|
+!i10b 1
+!s85 0
+vinstr_fetch
+I^:ZJRnd<EHafjO9AEJ3_I2
+VQ8KLW1]i3zlM@M0N[hzRR1
+R3
+w1371878541
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v
+L0 1
+R1
+r1
+31
+R2
+!s100 BKlJPHoHm1ge9E]^Lb4]J0
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v|
+!s108 1371907757.947000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v|
+!i10b 1
+!s85 0
+vinstruction_cache
+ImXX4KFY>9WW=e<9N2kjGM0
+Vji<BeVbB@Z^:m7oAi`Xco3
+R3
+Z4 w1371701430
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_cache.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_cache.v
+L0 2
+R1
+r1
+31
+R2
+!s100 MgeZ^__70I^Q8[VNQ5OkZ0
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_cache.v|
+!s108 1371907758.060000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_cache.v|
+!i10b 1
+!s85 0
+vinstruction_memory
+IMVMO^BHMgRekH8chjdj@S0
+VEh:ScgFAXlS4ZRiTO?ZII3
+R3
+R4
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_memory.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_memory.v
+L0 2
+R1
+r1
+31
+R2
+!s100 ]cMdUScCoSdV`8F9iZ3@<0
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_memory.v|
+!s108 1371907758.176000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instruction_memory.v|
+!i10b 1
+!s85 0
+vMEM
+IVo7Mc1zaniSQ:E[i=bT5n2
+VJ]G<iZ=bfG^8ON[=KfJN^2
+R3
+w1371882319
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v
+L0 1
+R1
+r1
+31
+R2
+n@m@e@m
+!s100 giAP7Gh0dQUXRTo<NFI2:1
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v|
+!s108 1371907758.295000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v|
+!i10b 1
+!s85 0
+vMEM_WB
+IDWNizo]`U0H^eg4BWNzW;3
+V_gcKGSl5U_:Di8Cn2EFP62
+R3
+w1371885489
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM_WB.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM_WB.v
+L0 1
+R1
+r1
+31
+R2
+n@m@e@m_@w@b
+!s100 k]gO2F6mC8zM4W<^ZD0^L3
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM_WB.v|
+!s108 1371907758.421000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM_WB.v|
+!i10b 1
+!s85 0
+vMUX32
+I@XjRVA?]3ZNbHA7M82Q2@2
+VH[AjfHD5z7k;zkHaYl4CE0
+R3
+w1371842906
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MUX32.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MUX32.v
+L0 1
+R1
+r1
+31
+R2
+n@m@u@x32
+!s100 [k4QS5?6Wj[TP4<k<5P8Z3
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MUX32.v|
+!s108 1371907758.589000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MUX32.v|
+!i10b 1
+!s85 0
+vPC
+I5e8^IUGLCNZYLKiUTGB9<0
+VDaFCkR>@8SI_z@E<TNS:^3
+R3
+w1371907750
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v
+L0 1
+R1
+r1
+31
+R2
+n@p@c
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v|
+!s100 5OJ32ahQ0KA=Gm;1JPzJ03
+!s108 1371907758.797000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v|
+!i10b 1
+!s85 0
+vpipeline
+I[n^72>IemKJl9MXhA]5lI2
+V>HXBKnAeDV0127`5B>UC[3
+R3
+w1371841360
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/testbench.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/testbench.v
+L0 2
+R1
+r1
+31
+R2
+!s100 3bb6VzNB[IkVJSQj?MMc42
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/testbench.v|
+!s108 1371907759.176000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/testbench.v|
+!i10b 1
+!s85 0
+vRegis
+Iiii3JK==<C?LSBdYdiFkA2
+VJ;Bm=P??`TYJ_dnXRG:^92
+R3
+w1371903690
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/Register.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/Register.v
+L0 1
+R1
+r1
+31
+R2
+n@regis
+!s100 jYeAgTz<RM?26G<=d05bh1
+!s108 1371907758.912000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/Register.v|
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/Register.v|
+!i10b 1
+!s85 0
+vRegister
+VcBoCNSAB2lOYlI_^QDGc82
+r1
+31
+I<64R]6nFY>8k2Ii@6^Q5P3
+R3
+w1371759822
+8D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\Register.v
+FD:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\Register.v
+L0 1
+R1
+R2
+n@register
+!s90 -reportprogress|300|-work|work|-vopt|D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\Register.v|
+!s107 D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\Register.v|
+!s100 REM`a9;:fl9BR:Tcf:ig33
+!s108 1371763136.829000
+!s85 0
+!i10b 1
+vSIGN_EXTEND
+I:W33kQ6U6einBzmgDV4Oz0
+V[DPkh;G00d1hNjVSMXJ1B0
+R3
+w1371839456
+8D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/SIGN_EXTEND.v
+FD:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/SIGN_EXTEND.v
+L0 1
+R1
+r1
+31
+R2
+n@s@i@g@n_@e@x@t@e@n@d
+!s100 I75:[H^2iZAP2:78PA8Lb0
+!s90 -reportprogress|300|-work|work|-vopt|D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/SIGN_EXTEND.v|
+!s108 1371907759.057000
+!s107 D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/SIGN_EXTEND.v|
+!i10b 1
+!s85 0

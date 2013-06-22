@@ -1,0 +1,471 @@
+ package syn;
+
+import java.io.InputStream;
+import ast.*;
+import za.*;
+import semantic.Env;
+
+action code {:
+	static symbol_table.Symbol symbol(String s) {
+		return symbol_table.Symbol.symbol(s);
+	}
+	static util.Position pos(int line, int column) {
+		return new util.Position(line, column);
+	}
+:};
+
+parser code {:
+	public void report_error(String message, Object info) {
+		StringBuffer m = new StringBuffer("\tParsing error");
+		if (info instanceof java_cup.runtime.Symbol) {
+			java_cup.runtime.Symbol s = (java_cup.runtime.Symbol) info;
+
+			if (s.left >= 0) {
+				m.append(" in line " + (s.left +1 ));
+				if (s.right >= 0) {
+					m.append(", column " + (s.right + 1));
+				}
+			}
+		}
+		m.append(" : " + message);
+		System.err.println(m);
+	}
+
+	public parser(InputStream inp) throws Exception {
+		this(new Yylex(inp));
+	}
+:};
+
+terminal			    PLUS, MINUS, TIMES, DIVIDE, ASSIGN;
+terminal			    EQ, NE, LT, GT, LE, GE;
+terminal			    LPAREN, RPAREN, LBRACE, RBRACE, SEMICOLON;
+terminal                LBRACKET,RBRACKET,SELFPLUS,SELFMINUS;
+terminal                COMMA,SHL,SHR;
+terminal                OR,XOR,AND,MOD,TIMES_ASSIGN,OR_ASSIGN;
+terminal                XOR_ASSIGN,AND_ASSIGN,PLUS_ASSIGN,MINUS_ASSIGN;
+terminal                DIVIDE_ASSIGN,MOD_ASSIGN,SHL_ASSIGN;
+terminal                SHR_ASSIGN,POINT,ELLIPSIS,LOGIC_OR,LOGIC_AND;
+terminal                TYPEDEF,VOID,CHAR,STRUCT,UNION,ELSE,WHILE;
+terminal                FOR,CONTINUE,BREAK,SIZEOF;
+terminal			    INT, IF, RETURN;
+terminal                UAND,USTAR,UPLUS,UMINUS,UTILDE,UNOT,TOWARDS;
+terminal Integer	    NUM;
+terminal String		    ID,TYPE_ID;
+terminal String         Chr;
+terminal String         String_const;
+
+non terminal Program program;
+non terminal Declaration declaration;
+non terminal Function_Definition function_definition;
+non terminal Parameters parameters;
+non terminal Declarators declarators;
+non terminal Init_Declarators init_declarators;
+non terminal Init_Declarator init_declarator;
+non terminal Initializer initializer;
+non terminal Type_Specifier type_specifier;
+non terminal Struct_Or_Union struct_or_union;
+non terminal Plain_Declaration plain_declaration;
+non terminal Declarator declarator;
+non terminal Plain_Declarator plain_declarator;
+non terminal Statement statement;
+non terminal Exp_Statement exp_statement;
+non terminal Com_Statement com_statement;
+non terminal Sel_Statement sel_statement;
+non terminal While_Statement while_statement;
+non terminal For_Statement for_statement;
+non terminal Continue_Statement continue_statement;
+non terminal Break_Statement break_statement;
+non terminal Return_Statement return_statement;
+non terminal Expression expression;
+non terminal Assign_Exp assign_exp;
+non terminal Assign_Exp1 assign_exp1;
+non terminal Assign_Exp2 assign_exp2;
+non terminal Assign_Op assign_op;
+non terminal Logic_Or_Exp logic_or_exp;
+non terminal Logic_And_Exp logic_and_exp;
+non terminal Or_Exp or_exp;
+non terminal Xor_Exp xor_exp;
+non terminal And_Exp and_exp;
+non terminal Eq_Exp eq_exp;
+non terminal Eq_Op eq_op;
+non terminal Rel_Exp rel_exp;
+non terminal Rel_Op rel_op;
+non terminal Shift_Exp shift_exp;
+non terminal Shift_Op shift_op;
+non terminal Additive_Exp additive_exp;
+non terminal Additive_Op additive_op;
+non terminal Multiplicative_Exp multiplicative_exp;
+non terminal Multiplicative_Op multiplicative_op;
+non terminal Cast_Exp cast_exp;
+non terminal Cast_Exp1 cast_exp1;
+non terminal Cast_Exp2 cast_exp2;
+non terminal Type_Name type_name;
+non terminal Unary_Exp unary_exp;
+non terminal Unary_Exp1 unary_exp1;
+non terminal Unary_Exp2 unary_exp2;
+non terminal Unary_Exp3 unary_exp3;
+non terminal Unary_Exp4 unary_exp4;
+non terminal Postfix_Exp postfix_exp;
+non terminal Postfix postfix;
+non terminal Postfix1 postfix1;
+non terminal Postfix2 postfix2;
+non terminal Postfix3 postfix3;
+non terminal Postfix4 postfix4;
+non terminal Arguments arguments;
+non terminal Primary_Exp primary_exp;
+non terminal Primary_Exp1 primary_exp1;
+non terminal Primary_Exp2 primary_exp2;
+non terminal Primary_Exp3 primary_exp3;
+non terminal Constant constant;
+non terminal Num constant1;
+non terminal Chr constant2;
+non terminal Str constant3;
+non terminal Parameters_Temp parameters_temp;
+non terminal Declarators_Temp declarators_temp;
+non terminal Init_Declarators_Temp init_declarators_temp;
+non terminal Initializer_Temp initializer_temp;
+non terminal Plain_Declaration_Temp plain_declaration_temp;
+non terminal Declarator_Temp2 declarator_temp2;
+non terminal Plain_Declarator_T2 plain_declarator_t2;
+non terminal Declaration_Temp3 declaration_temp3;
+non terminal Statement_Temp3 statement_temp3;
+non terminal Expression_Temp2 expression_temp2;
+non terminal Postfix_Exp_Temp postfix_exp_temp;
+
+precedence left         COMMA;
+precedence right        ASSIGN,XOR_ASSIGN,AND_ASSIGN,PLUS_ASSIGN,
+                        MINUS_ASSIGN,TIMES_ASSIGN,OR_ASSIGN,
+                        DIVIDE_ASSIGN,MOD_ASSIGN,SHL_ASSIGN,SHR_ASSIGN;        
+precedence left         LOGIC_OR;
+precedence left         LOGIC_AND;
+precedence left         OR;
+precedence left         XOR;
+precedence left         AND;
+precedence left         EQ,NE;
+precedence left         LT,LE,GT,GE;
+precedence left         SHL,SHR;
+precedence left		    PLUS, MINUS;
+precedence left		    TIMES,DIVIDE,MOD;
+precedence right        UNOT,UTILDE,SELFPLUS,SELFMINUS,UMINUS,USTAR,UAND,SIZEOF;
+precedence left         POINT,ELLIPSIS,TOWARDS,ELSE;
+precedence nonassoc     ID,TYPE_ID;
+/* TIMES,*/
+start with program;
+
+program ::= declaration:e program:f {: RESULT=new Program(e,f); :}
+          | function_definition:e program:f {: RESULT=new Program(e,f); :}
+          | declaration:e {: RESULT=new Program(e,null); :}
+          | function_definition:e {: RESULT=new Program(e,null); :}
+          ;
+
+declaration ::= TYPEDEF type_specifier:e {: Za.typedef=true; :} declarators:f {: RESULT=new Declaration(e,f);Za.typedef=false; :} SEMICOLON 
+              | type_specifier:e init_declarators:f SEMICOLON {: RESULT=new Declaration(e,f); :}
+              | type_specifier:e SEMICOLON {: RESULT=new Declaration(e); :}
+              ;
+
+function_definition ::= type_specifier:e plain_declarator:f LPAREN parameters:g 
+                        RPAREN com_statement:h {: RESULT=new Function_Definition(pos(eleft,eright),pos(fleft,fright),e,f,g,h); :}
+                      | type_specifier:e plain_declarator:f LPAREN RPAREN
+                        com_statement:h {: RESULT=new Function_Definition(pos(eleft,eright),pos(fleft,fright),e,f,null,h); :}
+                      ;
+
+parameters ::= plain_declaration:e {: RESULT=new Parameters(e); :}
+             | plain_declaration:e COMMA parameters_temp:f {: RESULT=new Parameters(e,f); :}
+             ; 
+
+parameters_temp ::= plain_declaration:e COMMA parameters_temp:f {: RESULT=new Parameters_Temp(e,f); :}
+                  | plain_declaration:e {: RESULT=new Parameters_Temp(e); :}
+				  | ELLIPSIS {: RESULT=new Parameters_Temp(); :}
+                  ;
+
+declarators ::= declarator:e declarators_temp:f {: RESULT=new Declarators(e,f); :}
+              ;
+
+declarators_temp ::=  {: RESULT=null; :}
+                   | COMMA declarator:e declarators_temp:f {: RESULT=new Declarators_Temp(e,f); :}
+                   ;
+
+init_declarators ::= init_declarator:e init_declarators_temp:f {: RESULT=new Init_Declarators(e,f); :}
+                   ;
+
+init_declarators_temp ::=  {: RESULT=null; :}
+                        | COMMA init_declarator:e init_declarators_temp:f {: RESULT=new Init_Declarators_Temp(e,f); :}
+                        ;
+
+init_declarator ::= declarator:e {: RESULT=new Init_Declarator(pos(eleft,eright),e,null); :}
+                  | declarator:e ASSIGN initializer:f {: RESULT=new Init_Declarator(pos(eleft,eright),pos(fleft,fright),e,f); :}
+                  ;
+
+initializer ::= assign_exp:e {: RESULT=new Initializer(pos(eleft,eright),e); :}
+              | LBRACE initializer:e initializer_temp:f RBRACE {: RESULT=new Initializer(pos(eleft,eright),e,f); :}
+              ;
+
+initializer_temp ::=  {: RESULT=null; :}
+                   | COMMA initializer:e initializer_temp:f {: RESULT=new Initializer_Temp(pos(eleft,eright),e,f); :}
+                   ;
+
+type_specifier ::= VOID {: RESULT=new Type_Specifier(symbol("void")); :}
+                 | CHAR {: RESULT=new Type_Specifier(symbol("char")); :}
+                 | INT {: RESULT=new Type_Specifier(symbol("int")); :}
+                 | TYPE_ID:e {: RESULT=new Type_Specifier(pos(eleft,eright),symbol(e)); :}
+                 | struct_or_union:e ID:f {: if (Za.env.structEnv.findlast(Za.symbol(f))==null) {Za.env.structEnv.put(Za.symbol(f),1);/*System.out.println("Put "+f+" to structenv");*/}RESULT=new Type_Specifier(pos(fleft,fright),e,symbol(f),null); :}
+                 | struct_or_union:e LBRACE plain_declaration_temp:g RBRACE {: RESULT=new Type_Specifier(e,null,g); :}
+                 | struct_or_union:e ID:f {: if (Za.env.structEnv.findlast(Za.symbol(f))==null) {Za.env.structEnv.put(Za.symbol(f),1);/*System.out.println("Put "+f+" to structenv");*/} :} LBRACE plain_declaration_temp:g RBRACE {: RESULT=new Type_Specifier(pos(fleft,fright),e,symbol(f),g); :}
+                 ;
+
+plain_declaration_temp ::= type_specifier:e declarators:f SEMICOLON {: RESULT=new Plain_Declaration_Temp(e,f,null); :}
+                         | type_specifier:e declarators:f SEMICOLON plain_declaration_temp:g {: RESULT=new Plain_Declaration_Temp(e,f,g); :}
+                         ;
+			   
+struct_or_union ::= STRUCT {: RESULT=new Struct_Or_Union(Struct_Or_Union.Type.STRUCT); :}
+                  | UNION {: RESULT=new Struct_Or_Union(Struct_Or_Union.Type.UNION); :}
+                  ;
+
+plain_declaration ::= type_specifier:e declarator:f {: RESULT=new Plain_Declaration(pos(eleft,eright),e,f); :}
+                    ;
+
+declarator ::= plain_declarator:e LPAREN parameters:f RPAREN {: RESULT=new Declarator(pos(eleft,eright),e,f); :}
+             | plain_declarator:e LPAREN RPAREN {: RESULT=new Declarator(pos(eleft,eright),e); :}
+             | plain_declarator:e declarator_temp2:f {: RESULT=new Declarator(pos(eleft,eright),e,f); :}
+             ;
+
+declarator_temp2 ::=  {: RESULT=new Declarator_Temp2(); :}
+                   | LBRACKET logic_or_exp:e RBRACKET declarator_temp2:f
+                     {: RESULT=new Declarator_Temp2(pos(eleft,eright),e,f); :}
+                   ;
+
+plain_declarator ::= plain_declarator_t2:e ID:f {:
+                                                   if (!Za.typedef && Za.env.funcEnv.findlast(Za.symbol(f))==null) 
+												   {Za.env.funcEnv.put(Za.symbol(f),1);/*System.out.println("Put "+f+" to funcenv");*/}
+												   if (Za.typedef && Za.env.typeEnv.findlast(Za.symbol(f))==null) 
+												   {Za.env.typeEnv.put(Za.symbol(f),1);/*System.out.println("Put "+f+" to typeenv");*/}
+												   RESULT=new Plain_Declarator(e,symbol(f)); 
+												:}
+                   ;
+
+plain_declarator_t2 ::= {: RESULT=new Plain_Declarator_T2(0); :}
+                      | TIMES plain_declarator_t2:e {: RESULT=new Plain_Declarator_T2(e.count+1); :} %prec USTAR
+                      ;
+
+statement ::= exp_statement:e {: RESULT=e; :}
+            | com_statement:e {: RESULT=e; :}
+            | sel_statement:e {: RESULT=e; :}
+            | while_statement:e {: RESULT=e; :}
+			| for_statement:e {: RESULT=e; :}
+            | continue_statement:e {: RESULT=e; :}
+			| break_statement:e {: RESULT=e; :}
+			| return_statement:e {: RESULT=e; :}
+            ;
+
+exp_statement ::= expression:e SEMICOLON {: RESULT=new Exp_Statement(e); :}
+                | SEMICOLON {: RESULT=new Exp_Statement(); :}
+                ;
+
+com_statement ::= LBRACE {: Za.env.beginScope(); :} declaration_temp3:e statement_temp3:f {: Za.env.beginScope(); :} RBRACE {: RESULT=new Com_Statement(e,f); :}
+                ;
+
+declaration_temp3 ::=  {: RESULT=null; :}
+                    | declaration:e declaration_temp3:f {: RESULT=new Declaration_Temp3(f,e); :}
+                    ;
+
+statement_temp3 ::=  {: RESULT=null; :}
+                  | statement:e statement_temp3:f {: RESULT=new Statement_Temp3(e,f); :}
+                  ;
+				 
+sel_statement ::= IF LPAREN expression:e RPAREN statement:f {: RESULT=new Sel_Statement(pos(eleft,eright),e,f); :}
+                | IF LPAREN expression:e RPAREN statement:f ELSE statement:g {: RESULT=new Sel_Statement(pos(eleft,eright),e,f,g); :}
+                ;
+
+expression_temp2 ::=  {: RESULT=null; :}
+                   | expression:e {: RESULT=new Expression_Temp2(e); :}
+                   ; 
+
+while_statement ::= WHILE LPAREN expression:e RPAREN statement:f {: RESULT=new While_Statement(pos(eleft,eright),e,f); :}
+                  ;
+
+for_statement ::= FOR LPAREN expression_temp2:e SEMICOLON expression_temp2:f
+                  SEMICOLON expression_temp2:g RPAREN statement:h {: RESULT=new For_Statement(pos(fleft,fright),e,f,g,h); :}
+				;
+
+continue_statement ::= CONTINUE SEMICOLON {: RESULT=new Continue_Statement(); :}
+                     ;
+
+break_statement ::= BREAK SEMICOLON {: RESULT=new Break_Statement(); :}
+                  ;
+				
+return_statement ::= RETURN expression_temp2:e SEMICOLON {: RESULT=new Return_Statement(pos(eleft,eright),e); :}
+                   ;
+
+expression ::= assign_exp:e {: RESULT=e; :}
+             | assign_exp:e COMMA expression:f {: RESULT=new Expression(pos(eleft,eright),e,f); :}
+             ;
+
+assign_exp ::= assign_exp1:e {: RESULT=e; :}
+             | assign_exp2:e {: RESULT=e; :}
+             ;
+assign_exp1 ::= logic_or_exp:e {: RESULT=e; :}
+              ;
+assign_exp2 ::= unary_exp:e assign_op:f assign_exp:g {: RESULT=new Assign_Exp2(pos(eleft,eright),e,f,g); :}
+              ;
+
+assign_op ::= ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.ASSIGN); :}
+            | TIMES_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.TIMES_ASSIGN); :}
+            | DIVIDE_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.DIVIDE_ASSIGN); :}
+            | MOD_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.MOD_ASSIGN); :}
+            | PLUS_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.PLUS_ASSIGN); :}
+            | MINUS_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.MINUS_ASSIGN); :}
+            | SHL_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.SHL_ASSIGN); :}
+            | SHR_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.SHR_ASSIGN); :}
+            | AND_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.AND_ASSIGN); :}
+            | XOR_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.XOR_ASSIGN); :}
+            | OR_ASSIGN {: RESULT=new Assign_Op(Assign_Op.OpType.OR_ASSIGN); :}
+            ;
+
+logic_or_exp ::= logic_and_exp:e {: RESULT=e; :}
+               | logic_and_exp:e LOGIC_OR logic_or_exp:f {: RESULT=new Logic_Or_Exp(pos(eleft,eright),e,f); :}
+               ;
+
+logic_and_exp ::= or_exp:e {: RESULT=e; :}
+                | or_exp:e LOGIC_AND logic_and_exp:f {: RESULT=new Logic_And_Exp(pos(eleft,eright),e,f); :}
+                ;
+
+or_exp ::= xor_exp:e {: RESULT=e; :}
+         | xor_exp:e OR or_exp:f {: RESULT=new Or_Exp(pos(eleft,eright),e,f); :}
+         ;
+
+xor_exp ::= and_exp:e {: RESULT=e; :}
+          | and_exp:e XOR xor_exp:f {: RESULT=new Xor_Exp(pos(eleft,eright),e,f); :}
+          ;
+
+and_exp ::= eq_exp:e {: RESULT=e; :}
+          | eq_exp:e AND and_exp:f {: RESULT=new And_Exp(pos(eleft,eright),e,f); :}
+          ;
+
+eq_op ::= EQ {: RESULT=new Eq_Op(Eq_Op.OpType.EQ); :}
+        | NE {: RESULT=new Eq_Op(Eq_Op.OpType.NE); :}
+        ;
+
+eq_exp ::= rel_exp:e {: RESULT=e; :}
+         | rel_exp:e eq_op:f eq_exp:g {: RESULT=new Eq_Exp(pos(eleft,eright),e,f,g); :}
+         ;
+
+rel_op ::= LT {: RESULT=new Rel_Op(Rel_Op.OpType.LT); :}
+         | GT {: RESULT=new Rel_Op(Rel_Op.OpType.GT); :}
+         | LE {: RESULT=new Rel_Op(Rel_Op.OpType.LE); :}
+         | GE {: RESULT=new Rel_Op(Rel_Op.OpType.GE); :}
+         ;
+
+rel_exp ::= shift_exp:e {: RESULT=e; :}
+          | shift_exp:e rel_op:f rel_exp:g {: RESULT=new Rel_Exp(pos(eleft,eright),e,f,g); :}
+          ;
+
+shift_op ::= SHL {: RESULT=new Shift_Op(Shift_Op.OpType.SHL); :}
+           | SHR {: RESULT=new Shift_Op(Shift_Op.OpType.SHR); :}
+           ;
+
+shift_exp ::= additive_exp:e {: RESULT=e; :}
+            | additive_exp:e shift_op:f shift_exp:g {: RESULT=new Shift_Exp(pos(eleft,eright),e,f,g); :}
+            ;
+
+additive_op ::= PLUS {: RESULT=new Additive_Op(Additive_Op.OpType.PLUS); :}
+              | MINUS {: RESULT=new Additive_Op(Additive_Op.OpType.MINUS); :}
+              ;
+
+additive_exp ::= multiplicative_exp:e {: RESULT=e; :}
+               | multiplicative_exp:e additive_op:f additive_exp:g {: RESULT=new Additive_Exp(pos(eleft,eright),e,f,g); :}
+               ;
+
+multiplicative_op ::= TIMES {: RESULT=new Multiplicative_Op(Multiplicative_Op.OpType.TIMES); :}
+                    | DIVIDE {: RESULT=new Multiplicative_Op(Multiplicative_Op.OpType.DIVIDE); :}
+                    | MOD {: RESULT=new Multiplicative_Op(Multiplicative_Op.OpType.MOD); :}
+                    ;
+
+multiplicative_exp ::= cast_exp:e {: RESULT=e; :}
+                     | cast_exp:e multiplicative_op:f multiplicative_exp:g {: RESULT=new Multiplicative_Exp(pos(eleft,eright),e,f,g); :}
+                     ;
+
+cast_exp ::= cast_exp1:e {: RESULT=e; :}
+           | cast_exp2:e {: RESULT=e; :}
+           ;
+
+cast_exp1 ::= unary_exp:e {: RESULT=e; :}
+            ;
+cast_exp2 ::= LPAREN type_name:e RPAREN cast_exp:f {: RESULT=new Cast_Exp2(pos(eleft,eright),e,f); :}
+            ;
+
+type_name ::= type_specifier:e plain_declarator_t2:f {: RESULT=new Type_Name(pos(eleft,eright),e,f); :}
+            ;
+
+unary_exp ::= unary_exp1:e {: RESULT=e; :}
+            | unary_exp2:e {: RESULT=e; :}
+            | unary_exp3:e {: RESULT=e; :}
+            | unary_exp4:e {: RESULT=e; :}
+            ;
+			
+unary_exp1 ::= postfix_exp:e {: RESULT=e; :}
+             ;
+unary_exp2 ::= SELFPLUS unary_exp:e {: RESULT=new Unary_Exp2(pos(eleft,eright),Unary_Exp.OpType.SELFPLUS,e); :}   %prec SELFPLUS
+             | SELFMINUS unary_exp:e {: RESULT=new Unary_Exp2(pos(eleft,eright),Unary_Exp.OpType.SELFMINUS,e); :}  %prec SELFMINUS
+			 | SIZEOF unary_exp:e {: RESULT=new Unary_Exp2(pos(eleft,eright),Unary_Exp.OpType.SIZEOF,e); :} %prec SIZEOF
+             ;
+unary_exp3 ::= PLUS cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.UPLUS,e); :}    %prec UPLUS
+  			 | MINUS cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.UMINUS,e); :}   %prec UMINUS
+			 | AND cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.UAND,e); :}   %prec UAND
+			 | UTILDE cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.UTILDE,e); :}  %prec UTILDE
+			 | UNOT cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.UNOT,e); :}  %prec UNOT
+			 | TIMES cast_exp:e {: RESULT=new Unary_Exp3(pos(eleft,eright),Unary_Exp.OpType.USTAR,e); :}  %prec USTAR    
+             ;
+unary_exp4 ::= SIZEOF LPAREN type_name:e RPAREN {: RESULT=new Unary_Exp4(pos(eleft,eright),e); :}  %prec SIZEOF
+             ;
+
+postfix ::= postfix1:e {: RESULT=e; :}
+          | postfix2:e {: RESULT=e; :}
+          | postfix3:e {: RESULT=e; :}
+          | postfix4:e {: RESULT=e; :}
+          ;
+			 
+postfix1 ::= LBRACKET expression:e RBRACKET {: RESULT=new Postfix1(pos(eleft,eright),e); :}
+           ;
+postfix2 ::= LPAREN arguments:e RPAREN {: RESULT=new Postfix2(pos(eleft,eright),e); :}
+		   | LPAREN RPAREN {: RESULT=new Postfix2(null); :}
+		   ;
+postfix3 ::= POINT ID:e {: RESULT=new Postfix3(pos(eleft,eright),Postfix3.Type.POINT,symbol(e)); :}
+           | TOWARDS ID:e {: RESULT=new Postfix3(pos(eleft,eright),Postfix3.Type.TOWARDS,symbol(e)); :}
+           ;
+postfix4 ::= SELFPLUS {: RESULT=new Postfix4(Postfix4.Type.SELFPLUS); :}
+           | SELFMINUS {: RESULT=new Postfix4(Postfix4.Type.SELFMINUS); :}
+           ;
+
+postfix_exp_temp ::=  {: RESULT=null; :}
+                   | postfix:e postfix_exp_temp:f {: RESULT=new Postfix_Exp_Temp(pos(eleft,eright),e,f); :}
+                   ;
+
+postfix_exp ::= primary_exp:e postfix_exp_temp:f {: RESULT=new Postfix_Exp(pos(eleft,eright),e,f); :}
+              ;
+
+arguments ::= assign_exp:e {: RESULT=new Arguments(pos(eleft,eright),e); :}
+            | assign_exp:e COMMA arguments:f {: RESULT=new Arguments(pos(eleft,eright),e,f); :}
+            ;
+			
+primary_exp ::= primary_exp1:e {: RESULT=e; :}
+              | primary_exp2:e {: RESULT=e; :}
+              | primary_exp3:e {: RESULT=e; :}
+              ;
+
+primary_exp1 ::= ID:e {: RESULT=new Primary_Exp1(pos(eleft,eright),symbol(e)); :}
+               ;
+primary_exp2 ::= constant:e {: RESULT=e; :}
+               ;
+primary_exp3 ::= LPAREN expression:e RPAREN {: RESULT=new Primary_Exp3(e); :}
+               ;
+
+constant ::= constant1:e {: RESULT=e; :} 
+           | constant2:e {: RESULT=e; :} 
+           | constant3:e {: RESULT=e; :} 
+           ;
+constant1 ::= NUM:e {: RESULT=new Num(pos(eleft,eright),e); :}
+            ;
+constant2 ::= Chr:e {: RESULT=new Chr(pos(eleft,eright),e); :}
+            ;
+constant3 ::= String_const:e {: RESULT=new Str(pos(eleft,eright),e); :}
+            ;

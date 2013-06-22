@@ -1,0 +1,141 @@
+ package syn;
+
+import java.io.InputStream;
+import ast.*;
+
+action code {:
+	static symbol_table.Symbol symbol(String s) {
+		return symbol_table.Symbol.symbol(s);
+	}
+:};
+
+parser code {:
+	public void report_error(String message, Object info) {
+		StringBuffer m = new StringBuffer("\tParsing error");
+		if (info instanceof java_cup.runtime.Symbol) {
+			java_cup.runtime.Symbol s = (java_cup.runtime.Symbol) info;
+
+			if (s.left >= 0) {
+				m.append(" in line " + (s.left +1 ));
+				if (s.right >= 0) {
+					m.append(", column " + (s.right + 1));
+				}
+			}
+		}
+		m.append(" : " + message);
+		System.err.println(m);
+	}
+
+	public parser(InputStream inp) throws Exception {
+		this(new Yylex(inp));
+	}
+:};
+
+terminal			    TIMES, ASSIGN;
+terminal			    LT;
+terminal			    LPAREN, RPAREN, LBRACE, RBRACE, SEMICOLON;
+terminal                LBRACKET, RBRACKET, SELFPLUS;
+terminal                COMMA;
+terminal                PLUS_ASSIGN;
+terminal                FOR;
+terminal			    INT, RETURN;
+terminal Integer	    NUM;
+terminal String		    ID;
+terminal String		String_const;
+
+non terminal Program program;
+non terminal Declaration declaration;
+non terminal Declarators declarators;
+non terminal Declarators_Temp declarators_temp;
+non terminal Declarator declarator;
+non terminal Statement statement;
+non terminal Exp_Statement exp_statement;
+non terminal Com_Statement com_statement;
+non terminal Declaration_Temp3 declaration_temp3;
+non terminal Statement_Temp3 statement_temp3;
+non terminal For_Statement for_statement;
+non terminal Return_Statement return_statement;
+non terminal Expression1 expression1;
+non terminal Expression2 expression2;
+non terminal Expression3 expression3;
+non terminal Postfix_Exp postfix_exp;
+non terminal Expression4 expression4;
+non terminal Expression expression;
+non terminal Expression5 expression5;
+non terminal Expression6 expression6;
+
+precedence left         COMMA;
+precedence right        ASSIGN,PLUS_ASSIGN;
+precedence left         LT;
+precedence right        SELFPLUS;
+start with program;
+
+program ::= INT ID:f LPAREN RPAREN com_statement:h {: RESULT=new Program(symbol(f),h); :}
+          ;
+
+declaration ::= INT declarators:f SEMICOLON {: RESULT=new Declaration(f); :}
+              ;
+
+declarators ::= declarator:e declarators_temp:f {: RESULT=new Declarators(e,f); :}
+              ;
+
+declarators_temp ::=  {: RESULT=null; :}
+                   | COMMA declarator:e declarators_temp:f {: RESULT=new Declarators_Temp(e,f); :}
+                   ;
+
+declarator ::= ID:e {: RESULT=new Declarator(symbol(e)); :}
+			 | ID:e LBRACKET NUM:n1 RBRACKET LBRACKET NUM:n2 RBRACKET {: RESULT=new Declarator(symbol(e),n1,n2); :}
+             ;
+
+statement ::= exp_statement:e {: RESULT=e; :}
+            | com_statement:e {: RESULT=e; :}
+			| for_statement:e {: RESULT=e; :}
+			| return_statement:e {: RESULT=e; :}
+            ;
+
+exp_statement ::= expression:e SEMICOLON {: RESULT=new Exp_Statement(e); :}
+                ;
+
+com_statement ::= LBRACE declaration_temp3:e statement_temp3:f RBRACE {: RESULT=new Com_Statement(e,f); :}
+                ;
+
+declaration_temp3 ::=  {: RESULT=null; :}
+                    | declaration:e declaration_temp3:f {: RESULT=new Declaration_Temp3(e,f); :}
+                    ;
+					
+statement_temp3 ::=  {: RESULT=null; :}
+				  | statement:e statement_temp3:f {: RESULT=new Statement_Temp3(e,f); :}
+				  ;
+
+for_statement ::= FOR LPAREN expression1:e SEMICOLON expression2:f SEMICOLON expression3:g RPAREN com_statement:h {: RESULT=new For_Statement(e,f,g,h); :}
+				;
+				
+return_statement ::= RETURN NUM:e SEMICOLON {: RESULT=new Return_Statement(e); :}
+                   ;
+
+expression1 ::= ID:e ASSIGN NUM:f {: RESULT=new Expression1(symbol(e),f); :}
+			  ;
+
+expression2 ::= ID:e LT NUM:f {: RESULT=new Expression2(symbol(e),f); :}
+			  ;
+			  
+expression3 ::= ID:e SELFPLUS {: RESULT=new Expression3(symbol(e)); :}
+			  ;
+			  
+postfix_exp ::= ID:e LBRACKET ID:n1 RBRACKET LBRACKET ID:n2 RBRACKET {: RESULT=new Postfix_Exp(symbol(e),symbol(n1),symbol(n2)); :}
+			  ;
+			  
+expression ::= expression4:e {: RESULT=e; :}
+			 | expression5:e {: RESULT=e; :}
+			 | expression6:e {: RESULT=e; :}
+			 ;
+			 
+expression4 ::= postfix_exp:e PLUS_ASSIGN postfix_exp:f TIMES postfix_exp:g {: RESULT=new Expression4(e,f,g); :}
+			  ;
+			  
+expression5 ::= ID:e LBRACKET NUM:n1 RBRACKET LBRACKET NUM:n2 RBRACKET ASSIGN NUM:f {: RESULT=new Expression5(symbol(e),n1,n2,f); :}
+			  ;
+			  
+expression6 ::= ID:e LPAREN String_const postfix_exp:f RPAREN {: RESULT=new Expression6(f); :}
+			  ;
+			  

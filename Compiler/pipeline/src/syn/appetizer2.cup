@@ -1,0 +1,452 @@
+package syn;
+
+import java.io.InputStream;
+
+action code {:
+	static syn.Symbol symbol(String s) {
+		return syn.Symbol.symbol(s);
+	}
+:};
+
+parser code {:
+	public void report_error(String message, Object info) {
+		StringBuffer m = new StringBuffer("\tParsing error");
+		if (info instanceof java_cup.runtime.Symbol) {
+			java_cup.runtime.Symbol s = (java_cup.runtime.Symbol) info;
+
+			if (s.left >= 0) {
+				m.append(" in line " + (s.left +1 ));
+				if (s.right >= 0) {
+					m.append(", column " + (s.right + 1));
+				}
+			}
+		}
+		m.append(" : " + message);
+		System.err.println(m);
+	}
+
+	public Parser(InputStream inp) {
+		this(new Yylex(inp));
+	}
+:};
+
+terminal			PLUS, MINUS, TIMES, DIVIDE, ASSIGN;
+terminal			EQ, NE, LT, GT, LE, GE;
+terminal			LPAREN, RPAREN, LBRACE, RBRACE, SEMICOLON;
+terminal                LBRACKET,RBRACKET,SELFPLUS,SELFMINUS;
+terminal                COMMA,SHL,SHR;
+terminal                OR,XOR,AND,MOD,TIMES_ASSIGN,OR_ASSIGN;
+terminal                XOR_ASSIGN,AND_ASSIGN,PLUS_ASSIGN,MINUS_ASSIGN;
+terminal                DIVIDE_ASSIGN,MOD_ASSIGN,SHL_ASSIGN;
+terminal                SHR_ASSIGN,POINT,ELLIPSIS,LOGIC_OR,LOGIC_AND;
+terminal                TYPEDEF,VOID,CHAR,STRUCT,UNION,ELSE,WHILE;
+terminal                FOR,CONTINUE,BREAK,SIZEOF;
+terminal			INT, IF, RETURN;
+terminal                UAND,USTAR,UPLUS,UMINUS,UTILDE,UNOT,TOWARDS;
+terminal Integer	      NUM;
+terminal String		ID;
+terminal String         Char;
+terminal String         STRING;
+
+non terminal Program	program;
+non terminal Declaration		declaration;
+non terminal Function_Definition	    function_definition;
+non terminal Parameters	parameters;
+non terminal Declarators      declarators;
+non terminal Init_Declarators init_declarators;
+non terminal Init_Declarator	init_declarator;
+non terminal Initializer	    initializer;
+non terminal Type_Specifier  type_specifier;
+non terminal Struct_or_Union struct_or_union;
+non terminal Plain_Declaration plain_declaration;
+non terminal Declarator declarator;
+non terminal Plain_Declarator plain_declarator;
+non terminal Statement statement;
+non terminal Exp_Statement exp_statement;
+non terminal Com_Statement com_statement;
+non terminal Sel_Statement sel_statement;
+non terminal Ite_Statement ite_statement;
+non terminal Jmp_Statement jmp_statement;
+non terminal Expression expression;
+non terminal Assign_Exp assign_exp;
+non terminal Assign_Op assign_op;
+non terminal Constant_Exp constant_exp;
+non terminal Logic_OR_Exp logic_or_exp;
+non terminal Logic_AND_Exp logic_and_exp;
+non terminal OR_Exp or_exp;
+non terminal XOR_Exp xor_exp;
+non terminal AND_Exp and_exp;
+non terminal Eq_Exp eq_exp;
+non terminal Eq_Op eq_op;
+non terminal Rel_Exp rel_exp;
+non terminal Rel_Op rel_op;
+non terminal Shift_Exp shift_exp;
+non terminal Shift_Op shift_op;
+non terminal Additive_Exp additive_exp;
+non terminal Additive_Op additive_op;
+non terminal Multiplicative_Exp multiplicative_exp;
+non terminal Multiplicative_Op multiplicative_op;
+non terminal Cast_Exp cast_exp;
+non terminal Type_Name type_name;
+non terminal Unary_Exp unary_exp;
+non terminal Unary_Op unary_op;
+non terminal Postfix_Exp postfix_exp;
+non terminal Postfix postfix;
+non terminal Arguments arguments;
+non terminal Primary_Exp primary_exp;
+non terminal Constant constant;
+non terminal Parameters_Temp parameters_temp;
+non terminal Declarators_Temp declarators_temp;
+non terminal Init_declarators_Temp init_declarators_temp;
+non terminal Initializer_Temp initializer_temp;
+non terminal Plain_Declaration_Temp plain_declaration_temp;
+non terminal Declarator_Temp declarator_temp;
+non terminal Declarator_Temp2 declarator_temp2;
+non terminal Plain_Declarator_T2 plain_declarator_t2;
+non terminal Declaration_Temp3 declaration_temp3;
+non terminal Statement_Temp3 statement_temp3;
+non terminal Expression_Temp2 expression_temp2;
+non terminal Expression_Temp3 expression_temp3;
+non terminal Logic_Or_Exp_Temp logic_or_exp_temp;
+non terminal Logic_And_Exp_Temp logic_and_exp_temp;
+non terminal Or_Exp_Temp or_exp_temp;
+non terminal Xor_Exp_Temp xor_exp_temp;
+non terminal And_Exp_Temp and_exp_temp;
+non terminal Eq_Exp_Temp eq_exp_temp;
+non terminal Rel_Exp_Temp rel_exp_temp;
+non terminal Shift_Exp_Temp shift_exp_temp;
+non terminal Additive_Exp_Temp additive_exp_temp;
+non terminal Multiplicative_Exp_Temp multiplicative_exp_temp;
+non terminal Postfix_Exp_Temp postfix_exp_temp;
+non terminal Arguments_Temp arguments_temp;
+non terminal Sel_Statement_Temp sel_statement_temp;
+
+precedence left         COMMA;
+precedence right        ASSIGN,XOR_ASSIGN,AND_ASSIGN,PLUS_ASSIGN,
+                        MINUS_ASSIGN,TIMES_ASSIGN,OR_ASSIGN,
+                        DIVIDE_ASSIGN,MOD_ASSIGN,SHL_ASSIGN,SHR_ASSIGN;        
+precedence left         LOGIC_OR;
+precedence left         LOGIC_AND;
+precedence left         OR;
+precedence left         XOR;
+precedence left         AND;
+precedence left         EQ,NE;
+precedence left         LT,LE,GT,GE;
+precedence left         SHL,SHR;
+precedence left		PLUS, MINUS;
+precedence left		TIMES, DIVIDE,MOD;
+precedence right        UNOT,UTILDE,SELFPLUS,SELFMINUS,UMINUS,USTAR,UAND;
+precedence left         POINT,ELLIPSIS,TOWARDS;
+
+start with program;
+
+program ::= declaration program{: :}
+          | function_definition program{: :}
+          | declaration {: :}
+          | function_definition{: :}
+          ;
+
+declaration ::= TYPEDEF type_specifier declarators COMMA {: :}
+              | type_specifier init_declarators COMMA {: :}
+              | type_specifier COMMA {: :}
+              ;
+
+function_definition ::= type_specifier plain_declarator LPAREN parameters 
+                        RPAREN com_statement {: :}
+                      | type_specifier plain_declarator LPAREN RPAREN
+                        com_statement {: :}
+                      ;
+
+parameters ::= plain_declaration parameters_temp {: :}
+             | plain_declaration parameters_temp COMMA ELLIPSIS {: :}
+             ;
+
+parameters_temp ::=  {: :}
+                  | COMMA plain_declaration parameters_temp {: :}
+                  ;
+
+declarators ::= declarator declarators_temp {: :}
+              ;
+
+declarators_temp ::=  {: :}
+                   | COMMA declarator declarators_temp {: :}
+                   ;
+
+init_declarators ::= init_declarator init_declarators_temp {: :}
+                   ;
+
+init_declarators_temp ::=  {: :}
+                        | COMMA init_declarator init_declarators_temp {: :}
+                        ;
+
+init_declarator ::= declarator {: :}
+                  | declarator ASSIGN initializer {: :}
+                  ;
+
+initializer ::= assign_exp {: :}
+              | LBRACE initializer_temp RBRACE {: :}
+              ;
+
+initializer_temp ::= initializer {: :}
+                   | initializer initializer_temp {: :}
+                   ;
+
+type_specifier ::= VOID {: :}
+                 | CHAR {: :}
+                 | INT {: :}
+                 
+                 | struct_or_union ID {: :}
+                 | struct_or_union LBRACE plain_declaration_temp RBRACE {: :}
+                 | struct_or_union ID LBRACE plain_declaration_temp RBRACE {: :}
+                 ;
+
+plain_declaration_temp ::= plain_declaration {: :}
+                         | plain_declaration plain_declaration_temp {: :}
+                         ;
+
+struct_or_union ::= STRUCT {: :}
+                  | UNION {: :}
+                  ;
+
+plain_declaration ::= type_specifier declarator_temp {: :}
+                    ;
+
+declarator_temp ::= declarator {: :}
+                  | declarator declarator_temp {: :}
+                  ;
+
+declarator ::= plain_declarator LPAREN parameters RPAREN {: :}
+             | plain_declarator LPAREN RPAREN {: :}
+             | plain_declarator declarator_temp2 {: :}
+             ;
+
+declarator_temp2 ::=  {: :}
+                   | LBRACKET constant_exp RBRACKET declarator_temp2
+                     {: :}
+                   ;
+
+plain_declarator ::= plain_declarator_t2 ID {: :}
+                   ;
+
+plain_declarator_t2 ::=  {: :}
+                      | USTAR plain_declarator_t2 {: :}
+                      ;
+
+statement ::= exp_statement {: :}
+            | com_statement {: :}
+            | sel_statement {: :}
+            | ite_statement {: :}
+            | jmp_statement {: :}
+            ;
+
+exp_statement ::= expression SEMICOLON {: :}
+                | SEMICOLON {: :}
+                ;
+
+com_statement ::= LBRACE declaration_temp3 statement_temp3 RBRACE {: :}
+                ;
+
+declaration_temp3 ::=  {: :}
+                    | declaration declaration_temp3 {: :}
+                    ;
+
+statement_temp3 ::=  {: :}
+                  | statement statement_temp3 {: :}
+                  ;
+
+sel_statement_temp ::= ELSE statement {: :}
+                     |  {: :}
+					 ;
+				 
+sel_statement ::= IF LPAREN expression RPAREN statement sel_statement_temp {: :}
+                ;
+
+expression_temp2 ::=  {: :}
+                   | expression {: :}
+                   ; 
+
+ite_statement ::= WHILE LPAREN expression RPAREN statement {: :}
+                | FOR LPAREN expression_temp2 SEMICOLON expression_temp2
+                  SEMICOLON expression_temp2 RPAREN statement {: :}
+                ;
+
+jmp_statement ::= CONTINUE SEMICOLON {: :}
+                | BREAK SEMICOLON {: :}
+                | RETURN expression_temp2 SEMICOLON {: :}
+                ;
+
+expression_temp3 ::=  {: :}
+                  | COMMA assign_exp expression_temp3 {: :}
+                  ;
+
+expression ::= assign_exp expression_temp3 {: :}
+             ;
+
+assign_exp ::= logic_or_exp {: :}
+             | unary_exp assign_op assign_exp {: :}
+             ;
+
+assign_op ::= ASSIGN {: :}
+            | TIMES_ASSIGN {: :}
+            | DIVIDE_ASSIGN {: :}
+            | MOD_ASSIGN {: :}
+            | PLUS_ASSIGN {: :}
+            | MINUS_ASSIGN {: :}
+            | SHL_ASSIGN {: :}
+            | SHR_ASSIGN {: :}
+            | AND_ASSIGN {: :}
+            | XOR_ASSIGN {: :}
+            | OR_ASSIGN {: :}
+            ;
+
+constant_exp ::= logic_or_exp {: :}
+               ;
+
+logic_or_exp_temp ::=  {: :}
+                    | LOGIC_OR logic_and_exp logic_or_exp_temp {: :}
+                    ;
+
+logic_or_exp ::= logic_and_exp logic_or_exp_temp {: :}
+               ;
+
+logic_and_exp_temp ::=  {: :}
+                     | LOGIC_AND or_exp logic_and_exp_temp {: :}
+                     ;
+
+logic_and_exp ::= or_exp logic_and_exp_temp {: :}
+                ;
+
+or_exp_temp ::=  {: :}
+              | OR xor_exp or_exp_temp {: :}
+              ;
+
+or_exp ::= xor_exp or_exp_temp {: :}
+         ;
+
+xor_exp_temp ::=  {: :}
+               | XOR and_exp xor_exp_temp {: :}
+               ;
+
+xor_exp ::= and_exp xor_exp_temp {: :}
+          ;
+
+and_exp_temp ::=  {: :}
+               | AND eq_exp and_exp_temp {: :}
+               ;
+
+and_exp ::= eq_exp and_exp_temp {: :}
+          ;
+
+eq_op ::= EQ {: :}
+        | NE {: :}
+        ;
+
+eq_exp_temp ::=  {: :}
+              | eq_op rel_exp eq_exp_temp {: :}
+              ;
+
+eq_exp ::= rel_exp eq_exp_temp {: :}
+         ;
+
+rel_op ::= LT {: :}
+         | GT {: :}
+         | LE {: :}
+         | GE {: :}
+         ;
+
+rel_exp_temp ::=  {: :}
+               | rel_op shift_exp rel_exp_temp {: :}
+               ;
+
+rel_exp ::= shift_exp rel_exp_temp {: :}
+          ;
+
+shift_op ::= SHL {: :}
+           | SHR {: :}
+           ;
+
+shift_exp_temp ::=   {: :}
+                 | shift_op additive_exp shift_exp_temp {: :}
+                 ;
+
+shift_exp ::= additive_exp shift_exp_temp {: :}
+            ;
+
+additive_op ::= PLUS {: :}
+              | MINUS {: :}
+              ;
+
+additive_exp_temp ::=  {: :}
+                    | additive_op multiplicative_exp additive_exp_temp {: :}
+                    ;
+
+additive_exp ::= multiplicative_exp additive_exp_temp {: :}
+               ;
+
+multiplicative_op ::= TIMES {: :}
+                    | DIVIDE {: :}
+                    | MOD {: :}
+                    ;
+
+multiplicative_exp_temp ::=  {: :}
+                          | multiplicative_op cast_exp multiplicative_exp_temp
+                            {: :}
+                          ;
+
+multiplicative_exp ::= cast_exp multiplicative_exp_temp {: :}
+                     ;
+
+cast_exp ::= unary_exp {: :}
+           | LPAREN type_name RPAREN cast_exp {: :}
+           ;
+
+type_name ::= type_specifier plain_declarator_t2 {: :}
+            ;
+
+unary_exp ::= postfix_exp {: :}
+            | SELFPLUS unary_exp {: :}
+            | SELFMINUS unary_exp {: :}
+            | unary_op cast_exp {: :}
+            | SIZEOF unary_exp {: :}
+            | SIZEOF LPAREN type_name RPAREN {: :}
+            ;
+
+unary_op ::= UPLUS {: :}
+           | UMINUS {: :}
+           | USTAR {: :}
+           | UAND {: :}
+           | UTILDE {: :}
+           | UNOT {: :}
+           ;
+
+postfix ::= LBRACKET expression RBRACKET {: :}
+          | LPAREN arguments RPAREN {: :}
+          | POINT ID {: :}
+          | TOWARDS ID {: :}
+          | SELFPLUS {: :}
+          | SELFMINUS {: :}
+          ;
+
+postfix_exp_temp ::=  {: :}
+                   | postfix postfix_exp_temp {: :}
+                   ;
+
+postfix_exp ::= primary_exp postfix_exp_temp {: :}
+              ;
+
+arguments_temp ::=  {: :}
+                 | COMMA assign_exp arguments_temp {: :}
+                 ;
+
+arguments ::= assign_exp arguments_temp {: :}
+            ;
+
+primary_exp ::= ID {: :}
+              | constant {: :}
+              | STRING {: :}
+              | LPAREN expression RPAREN {: :}
+              ;
+
+constant ::= NUM{: :}
+           | Char {: :}
+           ;
