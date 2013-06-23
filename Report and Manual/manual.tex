@@ -1,0 +1,74 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{CJK}
+
+\begin{document}
+\begin{CJK*}{GBK}{hei}
+\sf
+
+\title{计算机组成大作业使用手册 \\ User Maunal for MS108 project}
+
+\maketitle
+
+\begin{abstract}
+    This manual created by lrank to get a introduction of MS108 project written by us.
+\end{abstract}
+
+\section{Files}
+    We will see this folders under the root folder.
+    \begin{itemize}
+        \item code for the final verilog codes
+        \item Compiler files
+        \item Simulator fils
+        \item Report and Manual
+    \end{itemize}
+
+\section{具体操作}
+    \begin{enumerate}
+        \item compile:
+
+        第一步，将ram\_data.txt(数据文件)和c代码（默认为simple.c）复制到Compiler文件夹下。
+        
+        要求所提供的ram\_data.txt格式与所给样例相仿，并且需显式说明a与b数组的起始地址，如：
+        
+        @00    //a
+        
+        @0000\_00cc    //b
+        
+        （就是说在数据里给出a数组地址的那一行后面一定要加上注释“//a”，b也是一样的）
+        
+
+        第二步，将Compiler文件夹中的工程导入eclipse后运行，需要导入lib 中的package；
+
+        或者使用指令"java -jar compiler.jar simple.c"；
+
+        或者在win下直接运行run\_compiler.cmd，其中默认的输入文件名为simple.c。
+
+        使用以上三种方法之一，可以得到以下文件
+        \begin{enumerate}
+            \item address.txt 用以确定c数组在内存中的起始终止位置；
+            \item instr.txt 2进制文件，为compiler翻译的机器代码，可被执行；
+        \end{enumerate}
+
+        另外
+        \begin{enumerate}
+            \item datagen中的c文件为生成随机数据的代码。
+            \item 可选择编译过程中是否需要loop unrolling。
+
+                具体操作方法：Compiler/src/translate/Translate.java 中若选择151到153行，注释掉154 行，则compiler进行loop unrolling 优化；若注释掉151到153 行，选择154 行，则compiler 将不会进行loop unrolling 优化。
+        \end{enumerate}
+
+        \item 将Simulator文件夹的文件建成用ModelSim的工程。
+
+            将compile步骤中的address.txt，instr.txt，ram\_data.txt三个文件复制到Simulator文件夹下。
+
+            用ModelSim编译，选择pipeline进行模拟，去掉优化选项。
+
+            模拟完成后，c数组的值会被写到Simulator 文件夹下memory\_data\_out.txt 文件中。
+            
+            memory\_data\_out.txt 文件中第一行为c数组的起始地址，之后依次为c数组内元素的值。
+        \item 我们的一个时钟周期设置为10ns，最后的clock数为所用时间（ns）$ \div 10 $。
+    \end{enumerate}
+\end{CJK*}
+\end{document}
