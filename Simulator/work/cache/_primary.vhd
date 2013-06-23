@@ -14,7 +14,8 @@ entity cache is
         address         : in     vl_logic_vector;
         data_in         : in     vl_logic_vector;
         data_out        : out    vl_logic_vector;
-        hit             : out    vl_logic
+        hit             : out    vl_logic;
+        end_signal_i    : in     vl_logic
     );
     attribute mti_svvh_generic_type : integer;
     attribute mti_svvh_generic_type of DATAWIDTH : constant is 1;

@@ -13,7 +13,8 @@ entity data_memory is
         outp            : out    vl_logic_vector(31 downto 0);
         valid           : out    vl_logic;
         visit           : in     vl_logic;
-        vivi            : out    vl_logic
+        vivi            : out    vl_logic;
+        end_signal_i    : in     vl_logic
     );
     attribute mti_svvh_generic_type : integer;
     attribute mti_svvh_generic_type of SIZE : constant is 1;

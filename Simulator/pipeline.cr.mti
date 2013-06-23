@@ -1,4 +1,4 @@
-D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v
+D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/MEM.v {1 {vlog -work work -vopt {D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\MEM.v}
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module MEM
 
@@ -12,7 +12,7 @@ Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 Top level modules:
 	MEM_WB
 
-} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v
+} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cpu.v {1 {vlog -work work -vopt {D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\cpu.v}
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module cpu
 
@@ -33,6 +33,13 @@ Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 Top level modules:
 	SIGN_EXTEND
 
+} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/PC.v
+Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
+-- Compiling module PC
+
+Top level modules:
+	PC
+
 } {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/EX_MEM.v
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module EX_MEM
@@ -40,7 +47,7 @@ Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 Top level modules:
 	EX_MEM
 
-} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v
+} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/cache.v {1 {vlog -work work -vopt {D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\cache.v}
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module cache
 
@@ -54,7 +61,7 @@ Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 Top level modules:
 	MUX32
 
-} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v
+} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/instr_fetch.v {1 {vlog -work work -vopt {D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\instr_fetch.v}
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module instr_fetch
 
@@ -68,7 +75,7 @@ Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 Top level modules:
 	ID_EX
 
-} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v {1 {vlog -work work -vopt D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v
+} {} {}} D:/f/modelsim/Modelsim-win64-10.1c-se/modelsim/examples/MS108_CPU-master/data_memory.v {1 {vlog -work work -vopt {D:\f\modelsim\Modelsim-win64-10.1c-se\modelsim\examples\MS108_CPU-master\data_memory.v}
 Model Technology ModelSim SE-64 vlog 10.1c Compiler 2012.07 Jul 27 2012
 -- Compiling module data_memory
 

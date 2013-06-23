@@ -6,6 +6,7 @@ entity MEM is
         address_i       : in     vl_logic_vector(31 downto 0);
         data_i          : in     vl_logic_vector(31 downto 0);
         row_i           : in     vl_logic_vector(1 downto 0);
-        data_o          : out    vl_logic_vector(31 downto 0)
+        data_o          : out    vl_logic_vector(31 downto 0);
+        end_signal_i    : in     vl_logic
     );
 end MEM;
